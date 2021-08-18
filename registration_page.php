@@ -9,6 +9,7 @@ $db_name = 'website_data_db';
 // Creating a connection with the test_db database
 $conn = mysqli_connect($host_name, $user_name, $pass_word, $db_name);
 
+// Making an error message appear if a connection fault occurs
 if(!$conn)
 {
     die('Connection failed: '.mysqli_connect_error());
@@ -20,7 +21,8 @@ $password = $_POST["password"];
 $emailAddress = $_POST["emailAddress"];
 
 // Code providing data to be inserted intp database later
-$sql_data = "INSERT INTO contact_details VALUES('$fullName', '$username', '$password', '$emailAddress');";
+$sql_data = "INSERT INTO contact_details VALUES('$fullName', '$username', 
+            '$password', '$emailAddress');";
 
 // Insert above data into database
 if($conn -> query($sql_data) === TRUE)
@@ -31,8 +33,6 @@ else
 {
     echo "Error: ".$sql_data."<br>".$conn -> error;
 }
-
-echo 'Also testing out committing and pushing changes to Github';
 
 // Closing connection
 $conn -> close();
