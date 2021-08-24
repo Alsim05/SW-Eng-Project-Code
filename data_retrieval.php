@@ -1,15 +1,17 @@
 <?php
 
-include 'db_connect.php';
+require 'db_connect.php';
+// include 'data_retrieval.html';
+use TAOINCOM\Db\Connect as aConn;
 
 $data = $_POST["data"];
 
-// Retrieving a user's data
-$data_search = "SELECT * FROM contact_details WHERE full_name = '$data';";
-$result = $conn -> query($data_search);
-$row = $result -> fetch_assoc();
+$conn = new aConn();
 
-echo 'Full Name: '.$row['full_name'].'<br>';
+// Retrieving a user's data
+$msg = $conn->get_data($data);
+
+echo $msg;
 
 // Closing connection
-$conn -> close();
+$conn->close_conn();

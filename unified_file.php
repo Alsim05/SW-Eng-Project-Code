@@ -39,3 +39,4 @@ $object = new Connect_Class();
 $object->connect();
 $message = $object->get_message();
 echo $message;
+$this->conn -> close();
