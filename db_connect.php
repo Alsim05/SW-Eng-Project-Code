@@ -49,7 +49,16 @@ class Connect
     {
         $this->sql_data = "INSERT INTO contact_details VALUES('$fullName', 
         '$username', '$password', '$emailAddress');";
-        $this->conn -> query($this->sql_data);
+        if($this->conn ->query($this->sql_data) === TRUE)
+        {
+            $this->msg = 'Data successfully sent to database'.'<br>';
+        }
+        // $this->conn -> query($this->sql_data);
+        else
+        {
+            $this->msg = 'Error: '.$this->sql_data.'<br>'.$this->conn -> error;
+        }
+        return $this->msg;
     }
 
     public function get_data($data)

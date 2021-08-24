@@ -10,8 +10,7 @@ $emailAddress = $_POST['emailAddress'];
 
 $conn = new aConn();
 echo $conn->connect_message();
-$conn->send_data($fullName, $username, $password, $emailAddress);
-// echo $conn->get_fullName();
+echo $conn->send_data($fullName, $username, $password, $emailAddress);
 
 // Closing connection
 $conn->close_conn();
