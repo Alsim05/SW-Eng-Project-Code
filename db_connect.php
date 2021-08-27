@@ -33,14 +33,6 @@ class Connect
         $this->user_name = 'root';
         $this->pass_word = '';
         $this->db_name = 'website_data_db';
-    }
-
-    public function send_data($fullName, $username, $password, $emailAddress)
-    {
-        $this->fullName = $fullName;
-        $this->username = $username;
-        $this->password = $password;
-        $this->emailAddress = $emailAddress;
 
         // Creating a connection with the website_data_db database
         $this->conn = mysqli_connect($this->host_name, $this->user_name, $this->pass_word,
@@ -55,6 +47,14 @@ class Connect
             $this->msg = 'Connection successful!'; // Informing user if connection successful
         }
         echo $this->msg.'<br>';
+    }
+
+    public function send_data($fullName, $username, $password, $emailAddress)
+    {
+        $this->fullName = $fullName;
+        $this->username = $username;
+        $this->password = $password;
+        $this->emailAddress = $emailAddress;
 
         $sql = "SELECT * FROM contact_details;";
         if ($result = mysqli_query($this->conn, $sql))
@@ -83,7 +83,7 @@ class Connect
 
     public function get_data($data)
     {
-        $data_search = "SELECT * FROM contact_details WHERE full_name = '$data' OR 
+        $data_search = "SELECT * FROM contact_details WHERE full_name = '$data' OR
         username = '$data' OR password = '$data' OR email_address = '$data';";
         $result = $this->conn->query($data_search);
         $row = $result->fetch_assoc();
