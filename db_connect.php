@@ -5,19 +5,25 @@ namespace TAOINCOM\Db;
 class Connect
 
 {
-    public $conn;
-    public $msg = '';
-    public $host_name;
-    public $user_name;
-    public $pass_word;
-    public $db_name;
-    public $fullName;
-    public $username;
-    public $password;
-    public $emailAddress;
-    public $sql_data;
+    // Declaring private variables - for additional security!
+    private $conn;
+    // private $data_search;
+    private $msg;
+
+    // Declaring public variables for connection to my main Database.
+    private $host_name;
+    private $user_name;
+    private $pass_word;
+    private $db_name;
+
     public $data;
-    public $data_output;
+    // public $data_output;
+    public $emailAddress;
+    public $fullName;
+    public $id;
+    public $password;
+    public $sql_data;
+    public $username;
 
     public function __construct()
     {
@@ -30,6 +36,25 @@ class Connect
         // Creating a connection with the test_db database
         $this->conn = mysqli_connect($this->host_name, $this->user_name, $this->pass_word,
             $this->db_name);
+        $sql = "SELECT COUNT(*) FROM contact_details;";
+        settype($this->id, "integer");
+
+        if ($result = mysqli_query($this->conn , $sql))
+        {
+            $row_count = mysqli_num_rows($result);
+            $this->id = $row_count + 1;
+            echo "The largest id value is: ".$this->id.'<br>';
+        }
+
+        if(!$this->conn)
+        {
+            $this->msg = 'Connection failed!';
+        }
+        else
+        {
+            $this->msg = 'Connection successful!';
+        }
+        return $this->msg;
     }
 
     public function connect_message()
@@ -47,8 +72,13 @@ class Connect
 
     public function send_data($fullName, $username, $password, $emailAddress)
     {
-        $this->sql_data = "INSERT INTO contact_details VALUES('$fullName', 
-        '$username', '$password', '$emailAddress');";
+        $this->fullName = $fullName;
+        $this->username = $username;
+        $this->password = $password;
+        $this->emailAddress = $emailAddress;
+        $this->sql_data = "INSERT INTO contact_details (id, full_name, username, password, email_address) 
+        VALUES('$this->id', '$this->fullName', '$this->username', '$this->password', '$this->emailAddress');";
+
         if($this->conn ->query($this->sql_data) === TRUE)
         {
             $this->msg = 'Data successfully sent to database'.'<br>';
@@ -63,14 +93,14 @@ class Connect
 
     public function get_data($data)
     {
-        // $this->data = $data;
-        $this->data_search = "SELECT * FROM contact_details WHERE username = '$data';";
-        $this->result = $this->conn->query($this->data_search);
-        $row = $this->result->fetch_assoc();
-        $this->data_output = 'Full Name: '.$row['full_name'].', Username: '.
-            $row['username'].$row['password'].', Email Address: '.$row['email_address'].
+        $data_search = "SELECT * FROM contact_details WHERE full_name = '$data' OR 
+        username = '$data' OR password = '$data' OR email_address = '$data';";
+        $result = $this->conn->query($data_search);
+        $row = $result->fetch_assoc();
+        return $data_output = 'Full Name: '.$row['full_name'].', Username: '.
+            $row['username'].', Email Address: '.$row['email_address'].', Password: '.
+            $row['password'];
             '<br>';
-        return $this->data_output;
     }
 
     public function get_fullName()

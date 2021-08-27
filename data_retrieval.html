@@ -1,16 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title> Contact Details </title>
-</head>
-<body>
-<h2> Give any field data of the user / member whose contact details you want to check
-     in the box just below, and click on Submit. </h2>
-<form name = "contact_details" method = "post" action = "data_retrieval.php">
-  <label for = "data"> Full Name </label> <br>
-  <input type = "text" id = "data" name = "data"> <br><br>
-  <input type = "submit" value = "Submit">
-</form>
-</body>
+  <html lang="en">
+
+  <head>
+    <!-- Some Bootstrap Code from Starter Template -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+        crossorigin="anonymous">
+
+    <!-- Creating a title to provide some initial clarity as to the purpose of this file -->
+    <title> Contact Details </title>
+
+  </head>
+
+  <body>
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+
+    <h2> Give any field data of the user / member whose contact details you want to check
+       in the box just below, and click on Submit. </h2>
+
+    <!-- Creating a form to retrieve a piece of data from the contact_details table -->
+    <form name = "contact_details" method = "post" action = "data_retrieval.php">
+      <label for = "data"> Field Data </label> <br>
+      <input type = "text" id = "data" name = "data"> <br><br>
+      <input type = "submit" value = "Submit">
+      </form>
+
+  </body>
 </html>

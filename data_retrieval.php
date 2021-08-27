@@ -9,9 +9,7 @@ $data = $_POST["data"];
 $conn = new aConn();
 
 // Retrieving a user's data
-$msg = $conn->get_data($data);
-
-echo $msg;
+echo $msg = $conn->get_data($data).'<br>';
 
 // Closing connection
 $conn->close_conn();

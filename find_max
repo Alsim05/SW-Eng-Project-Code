@@ -1,0 +1,4 @@
+<script language = "javascript">
+    var a = Math.max(5, 10);
+    document.write(a);
+</script>
