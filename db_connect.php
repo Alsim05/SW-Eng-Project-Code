@@ -24,6 +24,7 @@ class Connect
     public $password;
     public $sql_data;
     public $username;
+    public $num_rows;
 
     public function __construct()
     {
@@ -32,42 +33,6 @@ class Connect
         $this->user_name = 'root';
         $this->pass_word = '';
         $this->db_name = 'website_data_db';
-
-        // Creating a connection with the test_db database
-        $this->conn = mysqli_connect($this->host_name, $this->user_name, $this->pass_word,
-            $this->db_name);
-        $sql = "SELECT COUNT(*) FROM contact_details;";
-        settype($this->id, "integer");
-
-        if ($result = mysqli_query($this->conn , $sql))
-        {
-            $row_count = mysqli_num_rows($result);
-            $this->id = $row_count + 1;
-            echo "The largest id value is: ".$this->id.'<br>';
-        }
-
-        if(!$this->conn)
-        {
-            $this->msg = 'Connection failed!';
-        }
-        else
-        {
-            $this->msg = 'Connection successful!';
-        }
-        return $this->msg;
-    }
-
-    public function connect_message()
-    {
-        if(!$this->conn)
-        {
-            $this->msg = 'Connection failed!';
-        }
-        else
-        {
-            $this->msg = 'Connection successful!';
-        }
-        return $this->msg;
     }
 
     public function send_data($fullName, $username, $password, $emailAddress)
@@ -76,19 +41,44 @@ class Connect
         $this->username = $username;
         $this->password = $password;
         $this->emailAddress = $emailAddress;
-        $this->sql_data = "INSERT INTO contact_details (id, full_name, username, password, email_address) 
+
+        // Creating a connection with the website_data_db database
+        $this->conn = mysqli_connect($this->host_name, $this->user_name, $this->pass_word,
+            $this->db_name);
+
+        if(!$this->conn)
+        {
+            $this->msg = 'Connection failed!'; // Informing user if connection failed
+        }
+        else
+        {
+            $this->msg = 'Connection successful!'; // Informing user if connection successful
+        }
+        echo $this->msg.'<br>';
+
+        $sql = "SELECT * FROM contact_details;";
+        if ($result = mysqli_query($this->conn, $sql))
+        {
+            $this->num_rows = mysqli_num_rows($result);
+        }
+        echo 'There are '.$this->num_rows.' rows in the contact_details table'.'<br>';;
+        //$sql = "SELECT COUNT(*) FROM contact_details;";
+        settype($this->id, "integer"); // Converting id to int so I can perform Math ops on it
+
+        $this->id = $this->num_rows + 1; // Ensuring that row_1[id]=1, row_2[id]=2, ... row_n[id]=n
+        echo "The next id value is: ".$this->id.'<br>';
+
+        $this->sql_data = "INSERT INTO contact_details (id, full_name, username, password, email_address)
         VALUES('$this->id', '$this->fullName', '$this->username', '$this->password', '$this->emailAddress');";
 
         if($this->conn ->query($this->sql_data) === TRUE)
         {
             $this->msg = 'Data successfully sent to database'.'<br>';
         }
-        // $this->conn -> query($this->sql_data);
         else
         {
-            $this->msg = 'Error: '.$this->sql_data.'<br>'.$this->conn -> error;
+            $this->msg = 'Error: '.$this->sql_data.'<br>'.$this->conn->error;
         }
-        return $this->msg;
     }
 
     public function get_data($data)
@@ -99,13 +89,12 @@ class Connect
         $row = $result->fetch_assoc();
         return $data_output = 'Full Name: '.$row['full_name'].', Username: '.
             $row['username'].', Email Address: '.$row['email_address'].', Password: '.
-            $row['password'];
-            '<br>';
+            $row['password'].'<br>';
     }
 
-    public function get_fullName()
+    public function get_latest_id()
     {
-        return $this->fullName;
+        return $this->id;
     }
 
     public function close_conn()
